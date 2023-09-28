@@ -1,0 +1,120 @@
+---
+title: "Proyecto Gestión Financiera"
+subtitle: Engie Energía Chile
+author: "Ignacio Larraín"
+format: html
+editor: visual
+---
+
+```{r configuraciones}
+#| message: false
+#| echo: false
+# Esto ya debiera estar cargado en el proyecto en posit.cloud
+# devtools::install_github("business-science/tidyquant")
+# Loads tidyquant, lubridate, xts, quantmod, TTR, and PerformanceAnalytics
+library(tidyverse)
+library(tidyquant)  
+```
+
+### 1. Sector Energético Chile.
+
+En **"[Has electricity turned green or black in Chile? A structural decomposition analysis of energy consumption](https://www.webofscience.com/wos/woscc/full-record/WOS:000447576500024)"** se menciona que en América Latina, Chile es el país con mayor consumo de electricidad per cápita, pero esto no se correlaciona con las producción porque noes el país que tiene mayor producción. Incluso, entre 1990 y 2007, la demanda de electricidad fue tan grande que se tuvo que incurrir en importar electricidad, especialmente del gas que suministraba Argentina. Sin embargo, en 2004 esta fuente de energía se vio interrumpida por el corte de las cañerías de gas de Argentina a Chile.
+
+Esta situación, sumada a el constante preocupación mundial sobre el calentamiento global y el medioambiente, provocó un cambio de mentalidad de Chile sobre las fuentes de energía que tenia en ese momento, y desde entonces se propuso pasar de una fuente de energía fósil, mayoritariamente en ese momento, hacia una de fuentes renovables como la eólica y solar, esto gracias a la geografía que tiene Chile, porque tiene un potencial significativo para aprovechar esas fuentes de energía limpias y eficientes.
+
+El crecimiento en los últimos años ha ido en alza, donde hasta abril de 2022 incremento en 40% la energía renovable y al mismo tiempo, se ha reducido en un 25% la energía mediante el carbón *([La generación con renovables en Chile creció 40% interanual en abril - Energía Estratégica 2022)](https://www.energiaestrategica.com/la-generacion-con-renovables-en-chile-experimento-un-crecimiento-del-40/)*. Y este porcentaje de crecimiento podría subir gracias a la actual construcción de 4500 MW en distintas fuentes y que el almacenamiento a través de baterías se espera que se triplique.
+
+A lo anterior se le suma, que el Estado chileno a incentivado el cambio y la producción de energías renovables, mediante, por ejemplo, un impuesto al carbono (5US\$/ton CO2) y una regulación que establece que al menos el 20% de la energía generada por las empresas debe ser de fuentes no convencionales para el año 2025. En conjunto, todas estas acciones indican hacia donde va el sector energético en Chile y en que están enfocadas las inversiones.
+
+Las siguientes imagenes muestran las proyección de demanda y oferta. Donde para 2042 las principales fuentes de energia sería eólica, solar y BESS (Sistema de Almacenamiento de Energía de Baterías) y que la demanda crezca en 46% aproximadamente.
+
+[![Imagen 1.1 Proyección de Oferta de Energía](photos/Imagen1.png){fig-alt="Imagen 1.1 Proyección de Oferta de Energía" fig-align="center"}](https://www.coordinador.cl/desarrollo/graficos/planificacion-de-la-transmision/oferta-proyectada/)
+
+[![Imagen 1.2 Proyección de Demanda de Energía](photos/Imagen2.png){fig-align="center"}](https://www.coordinador.cl/desarrollo/graficos/planificacion-de-la-transmision/demanda-proyectada/)
+
+```{r ETL}
+#| echo: false
+# Alternativamente Use FANG data set
+# data("FANG") 
+end <- as_date("2023-09-27")
+# Get AAPL and AMZN Stock Prices
+# AAPL <- tq_get("AAPL", get = "stock.prices", from = "2015-09-01", to = end)
+# AMZN <- tq_get("AMZN", get = "stock.prices", from = "2000-01-01", to = end)
+CMPC <- tq_get("ECL.SN", get = "stock.prices", from = "2000-01-01", to = end)
+VAPORES <- tq_get("VAPORES.SN", get = "stock.prices", from = "2000-01-01", to = end)
+CONCHATORO <- tq_get("CONCHATORO.SN", get = "stock.prices", from = "2000-01-01", to = end)
+CL <- rbind(CMPC,VAPORES,CONCHATORO)
+CMPC=na.omit(CMPC)
+
+```
+
+### 2. Motivación
+
+En el siguiente gráfico se muestra la evolución del precio de Engie, se puede ver que ha tenido una gran baja en los últimos años pero eso es debido a sucesos como el covid y el estallido social, pero ha ido en alza en los últimos meses.
+
+El activo Engie Energia Chile tiene un valor promedio para el intervalo igual a `r round(mean(CMPC$close),digits=0)` pesos.
+
+```{r CMPCline}
+#| warning: false
+#| echo: false
+CMPC %>%
+    ggplot(aes(x = date, y = close)) +
+    geom_line() +
+    labs(title = "Engie Energia Line Chart", y = "Closing Price", x = "") + 
+    theme_tq() +
+  geom_hline(yintercept=mean(CMPC$close), linetype="dashed", color = "red")
+```
+
+Como se dijo en la definición, las compañias de electricidad y el estado han incentivado el cambio hacia las energias renovables y Engie Energia no se queda atras. Donde sigue un modelo sotenible donde integra a las personas y el planeta pero siempre buscando rentabilidad, ya que sin rentabilidad no hay crecimiento.
+
+Actualmente la producción de energía renovables es más de un 33% y espera que siga subiendo en los siguientes años. La matriz de Engie ha invertido en todo el mundo entre 13 y 14 billones de dólares en energías renovables, [para Chile destinó US\$1.800 millones](https://engie-energia.cl/engie-refuerza-su-apuesta-por-chile-y-prepara-inversiones-en-renovables-por-us-1-800-mills/) respresentando un 15% aproximadamente del total. Toda estas inversiones tienen el objetivo de llegar al 2025 sin energías mediante el carbón.
+
+[Tambien para principios de 2024 busca tener ya en operación una de las planta de almacenamiento más grande Latinoamerica](https://www.larepublica.co/globoeconomia/engie-construira-uno-de-los-sistemas-de-almacenamiento-mas-grandes-de-latinoamerica-en-antofagasta-3506793), ubicada en la planta solar PV Coya en la comuna de María Elenena, con una capacidad de 638MWh abasteciendo a cerca de 100 mil hogares con energía verde. Así se suma a su primera planta de almacenamiento ubicada en Arica con una capacidad 2Mwh
+
+Es por esto que se vuelve interesante este activo, ya que va alineado con las tematicas que preocupan en el mundo actualmente, donde cada vez más gente se ve interesada en este tipo de empresas y más aun si participan en el cambio de energías fosiles a renovables.
+
+### 3. Contexto
+
+#### 3.1 Tipo de cambio
+
+El tipo de cambio, como el peso chileno-dólar, es una variable que esta relacionada con el activo, ya que, los ingresos que obtiene son en pesos chilenos pero al ser una compañia multinacional tambien tiene que responder a la casa matriz y hacer los respectivos pagos, tambien necesita de estos para cualquier importación que haga desde el extranjero y los bonos que ha colocado han sido en el mercado internacional en dólares.
+
+[![Imagen 3.1.1: Evolución del precio del dólar desde hace 1 año](photos/WhatsApp%20Image%202023-09-27%20at%2017.59.48.jpeg)](https://es.investing.com/currencies/usd-clp-chart)
+
+#### 3.2 Litio
+
+Engie ha invertido gran cantidad en plantas de almacenamiento de energia, esta energia se almacena en baterias donde uno de los componentes principales es el **litio**, por lo tanto cambio en los precios de este afectaria al activo.
+
+#### 3.3 PPA Corporativos
+
+Los PPA Corporativos son acuerdos de compra y venta de energia a largo plazo entre una compañia productora de energia renovable y un consumidor. En los ultimos años ha habido un gran aumento en estos, como se ve en el gráfico, y esto afecta al activo, ya que seria una fuente de ingresos para ellos al estar transformadose en una empresa generadora de energia renovable.
+
+[![Imagen 3.3.1: Evolución de los PPA](photos/FIg1.jpg)](https://elperiodicodelaenergia.com/record-de-ppas-renovables-en-2022-las-corporaciones-firmaron-367-gw-en-plena-crisis-energetica/)
+
+### 4. Análisis de Largo Plazo
+
+#### 4.1 [Caracterización deuda](https://engie-energia.cl/wp-content/uploads/2023/07/EEFF-Consolidado-EECL-Junio-2023.pdf)
+
+En el año 2021 Engie Energia Chile tenía una estructura de capital de 29% deuda y 71% capital, donde la deuda es mayoritariamente bonos, teniendo un total de USD 1.397.085.000 en pasivos y USD 3.498.954.000.
+
+En 2010 emitío su primer bono por un monto de USD 400.000.000 con una tasa de interes cupón de 5,625% anual y con pagos semestrales de los intereses durante 10 años y se amortizó el capital final en 2021. En 2014 emitio su segundo bono en el mercado internacional por un monto de USD 350.000.000 de tipo Bullet con una tasa de interes cupón de 4,5% anual con pagos de interes semestrales durante 10 años y se amortizará el capital final en una sola cuota final el 29 de enero de 2025. En 2020 emitió su segundo bono por u monto de USD 500.000.000 con un tasa de interés cupón de 3,4% y al igual que el anterior se pagan los interes semestralmete durante 10 años y se amortizará el capital final en una sola cuota el 28 de enero de 2030. Ademas del bono anterior se destianron USD 400.000.000 para el primer bono emitido.
+
+Con respecto al capital, la empresa cuenta con un total de 1.053.309.776 acciones comunes, emitidas, suscritas y pagadas, con una valor de hoy 27 de septiembre 2023 de 811 pesos chilenos y una ganancia por acción de USD 0,024. Donde estos son los 12 mayores accionistas:
+
+[![Imagen 4.1.1: Los 12 Mayores Accionistas de Engie Energía Chile](photos/WhatsApp%20Image%202023-09-27%20at%2016.58.04.jpeg){fig-align="center"}](https://www.cmfchile.cl/institucional/mercados/entidad.php?mercado=V&rut=88006900&grupo=&tipoentidad=RVEMI&row=&vig=VI&control=svs&pestania=5)
+
+#### 4.2 Caracterización de emisiones históricas
+
+Engie Energia Chile ha emitido 5 veces acciones desde su entrada a la bolsa.
+
+[![Imagen 4.2.1: Emisión de acciones](photos/WhatsApp%20Image%202023-09-27%20at%2017.43.44.jpeg){fig-align="center" width="909"}](https://www.cmfchile.cl/institucional/estadisticas/acc_registro1.php?lang=es)
+
+#### 4.4 Relación con activos derivados
+
+Engie Energia Chile cuenta con dos tipos de derivados, forwards y swaps. Como mencionan en su estados financieros, estos derivados fueron tomados para protejerse del riesgo del tipo de cambio, siendo los forwards calificados como cobertura de flujo de efectivos. A continuación se muestra los derivados:
+
+[![Imagen 4.4.1: Derivados financieros de cobertura](photos/WhatsApp%20Image%202023-09-27%20at%2017.54.07.jpeg){fig-align="center"}](https://engie-energia.cl/wp-content/uploads/2023/07/EEFF-Consolidado-EECL-Junio-2023.pdf)
+
+### 5. Reporte grupal
+
+Definicion de un balance de portafolio sobre los 3 activos del grupo, donde se especifique los pesos de cada activo de tal forma que maximize el retorno de la cartera.
