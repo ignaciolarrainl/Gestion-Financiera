@@ -67,7 +67,7 @@ CMPC %>%
 
 Como se dijo en la definición, las compañias de electricidad y el estado han incentivado el cambio hacia las energias renovables y Engie Energia no se queda atras. Donde sigue un modelo sotenible donde integra a las personas y el planeta pero siempre buscando rentabilidad, ya que sin rentabilidad no hay crecimiento.
 
-Actualmente la producción de energía renovables es más de un 33% y espera que siga subiendo en los siguientes años. La matriz de Engie ha invertido en todo el mundo entre 13 y 14 billones de dólares en energías renovables, [para Chile destinó US\$1.800 millones](https://engie-energia.cl/engie-refuerza-su-apuesta-por-chile-y-prepara-inversiones-en-renovables-por-us-1-800-mills/) respresentando un 15% aproximadamente del total. Toda estas inversiones tienen el objetivo de llegar al 2025 sin energías mediante el carbón.
+Actualmente la producción de energía renovables es más de un 33% y espera que siga subiendo en los siguientes años. La matriz de Engie ha invertido en todo el mundo entre 13 y 14 billones de dólares en energías renovables, [para Chile destinó USD1.800 millones](https://engie-energia.cl/engie-refuerza-su-apuesta-por-chile-y-prepara-inversiones-en-renovables-por-us-1-800-mills/) respresentando un 15% aproximadamente del total. Toda estas inversiones tienen el objetivo de llegar al 2025 sin energías mediante el carbón.
 
 [Tambien para principios de 2024 busca tener ya en operación una de las planta de almacenamiento más grande Latinoamerica](https://www.larepublica.co/globoeconomia/engie-construira-uno-de-los-sistemas-de-almacenamiento-mas-grandes-de-latinoamerica-en-antofagasta-3506793), ubicada en la planta solar PV Coya en la comuna de María Elenena, con una capacidad de 638MWh abasteciendo a cerca de 100 mil hogares con energía verde. Así se suma a su primera planta de almacenamiento ubicada en Arica con una capacidad 2Mwh
 
@@ -105,7 +105,7 @@ Con respecto al capital, la empresa cuenta con un total de 1.053.309.776 accione
 
 #### 4.2 Caracterización de emisiones históricas
 
-Engie Energia Chile ha emitido 5 veces acciones desde su entrada a la bolsa.
+Engie Energia Chile ha emitido 5 veces acciones desde su entrada a la bolsa. En la siguiente imagen sacada desde la CMF se pueden ver la 5 colocaciones que hicieron.
 
 [![Imagen 4.2.1: Emisión de acciones](photos/WhatsApp%20Image%202023-09-27%20at%2017.43.44.jpeg){fig-align="center" width="909"}](https://www.cmfchile.cl/institucional/estadisticas/acc_registro1.php?lang=es)
 
@@ -117,4 +117,4 @@ Engie Energia Chile cuenta con dos tipos de derivados, forwards y swaps. Como me
 
 ### 5. Reporte grupal
 
-Definicion de un balance de portafolio sobre los 3 activos del grupo, donde se especifique los pesos de cada activo de tal forma que maximize el retorno de la cartera.
+Con respecto a la energía, se decidió elegir un peso de 30% para el portafolio, ya que, es un activo más volátil que la banca y con respecto a este sector se espera que con todas las inversiones en tecnologías y energía renovable los precios de las acciones suban, tal y como lo está haciendo Engiecon su inversión de USD1.800 millones en energías limpias y la construcción de una de las plantas más grandes de Latinoamérica de almacenamiento, sumado a la preocupación que existe sobre el medioambiente y el incentivo a invertir en empresas que aporten en mejorarlo.
